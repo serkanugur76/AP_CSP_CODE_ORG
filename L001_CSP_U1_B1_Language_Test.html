@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP CSP Unit 1 — English Language Test (B1)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #f7f5f0;
+    --card: #ffffff;
+    --text: #1c1b18;
+    --muted: #6b6860;
+    --accent: #2d5f4f;
+    --accent-light: #e8f3ef;
+    --accent-mid: #a8cfc4;
+    --wrong: #c0392b;
+    --wrong-light: #fbeaea;
+    --right: #1e7d5a;
+    --right-light: #e6f4ee;
+    --border: #dedad3;
+    --pill-bg: #f0ede6;
+    --num: #2d5f4f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--accent);
+    color: #fff;
+    padding: 48px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent, transparent 28px,
+      rgba(255,255,255,.04) 28px, rgba(255,255,255,.04) 29px
+    );
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 10px; font-weight: 600; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent-mid);
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 20px; padding: 4px 14px; margin-bottom: 18px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 5vw, 40px);
+    font-weight: 400; line-height: 1.2;
+    margin-bottom: 10px; position: relative;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent-mid); }
+  .hero-sub {
+    font-size: 14px; color: rgba(255,255,255,.7);
+    max-width: 480px; margin: 0 auto 24px;
+    line-height: 1.6; position: relative;
+  }
+  .meta-pills {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 8px; position: relative;
+  }
+  .meta-pill {
+    font-size: 11px; padding: 4px 12px; border-radius: 14px;
+    background: rgba(255,255,255,.15); color: rgba(255,255,255,.85);
+    border: 1px solid rgba(255,255,255,.2);
+  }
+
+  /* ── Instructions ── */
+  .instructions {
+    max-width: 720px; margin: 28px auto 0;
+    padding: 0 20px;
+  }
+  .instr-card {
+    background: var(--card); border-radius: 14px;
+    border: 1px solid var(--border);
+    padding: 18px 22px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media(max-width:520px){ .instr-card { grid-template-columns: 1fr; } }
+  .instr-item { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .instr-item strong { color: var(--text); font-weight: 500; }
+
+  /* ── Questions ── */
+  .questions {
+    max-width: 720px; margin: 24px auto 0;
+    padding: 0 20px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  .q-card {
+    background: var(--card); border-radius: 14px;
+    border: 1px solid var(--border);
+    padding: 22px 24px;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .q-card.answered { border-color: var(--border); }
+
+  .q-header {
+    display: flex; align-items: flex-start; gap: 14px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent-light); color: var(--num);
+    font-size: 13px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .q-type {
+    font-size: 10px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .q-text { font-size: 15px; line-height: 1.55; color: var(--text); font-weight: 400; }
+
+  /* fill-blank */
+  .blank-wrap { display: inline-block; position: relative; }
+  .blank-input {
+    display: inline-block;
+    width: 120px; padding: 2px 8px;
+    border: none; border-bottom: 2px solid var(--accent);
+    background: transparent; outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; color: var(--text);
+    text-align: center;
+    transition: border-color .2s;
+  }
+  .blank-input:focus { border-color: var(--accent); background: var(--accent-light); border-radius: 4px 4px 0 0; }
+  .blank-input.correct { border-color: var(--right); background: var(--right-light); border-radius: 4px; }
+  .blank-input.incorrect { border-color: var(--wrong); background: var(--wrong-light); border-radius: 4px; }
+
+  /* options */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option {
+    display: flex; align-items: flex-start; gap: 11px;
+    padding: 11px 14px; border-radius: 10px;
+    border: 1.5px solid var(--border); cursor: pointer;
+    transition: border-color .15s, background .15s;
+    font-size: 14px; line-height: 1.5; color: var(--text);
+    user-select: none;
+  }
+  .option:hover { border-color: var(--accent-mid); background: var(--accent-light); }
+  .option.selected { border-color: var(--accent); background: var(--accent-light); }
+  .option.correct  { border-color: var(--right);  background: var(--right-light);  color: var(--right); }
+  .option.incorrect{ border-color: var(--wrong);  background: var(--wrong-light);  color: var(--wrong); }
+  .option.reveal-correct { border-color: var(--right); background: var(--right-light); color: var(--right); }
+  .opt-letter {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1.5px solid currentColor; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; flex-shrink: 0;
+    opacity: .7;
+  }
+
+  /* matching */
+  .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:460px){ .match-grid { grid-template-columns: 1fr; } }
+  .match-col { display: flex; flex-direction: column; gap: 6px; }
+  .match-label { font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .match-item {
+    padding: 8px 12px; border-radius: 8px; font-size: 13px;
+    border: 1.5px solid var(--border); background: var(--pill-bg);
+    min-height: 36px; display: flex; align-items: center;
+  }
+  .match-item strong { color: var(--accent); font-weight: 600; margin-right: 6px; }
+  select.match-select {
+    width: 100%; padding: 7px 10px; border-radius: 8px;
+    border: 1.5px solid var(--border); background: #fff;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    color: var(--text); cursor: pointer; outline: none;
+    transition: border-color .2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236b6860' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center;
+    padding-right: 30px;
+  }
+  select.match-select:focus { border-color: var(--accent); }
+  select.match-select.correct { border-color: var(--right); background-color: var(--right-light); }
+  select.match-select.incorrect { border-color: var(--wrong); background-color: var(--wrong-light); }
+
+  /* feedback per question */
+  .q-feedback {
+    margin-top: 12px; padding: 10px 13px; border-radius: 8px;
+    font-size: 13px; line-height: 1.6; display: none;
+  }
+  .q-feedback.show { display: block; }
+  .q-feedback.ok { background: var(--right-light); color: var(--right); border: 1px solid #b2dfc9; }
+  .q-feedback.bad { background: var(--wrong-light); color: var(--wrong); border: 1px solid #f0b8b8; }
+  .feedback-tr { opacity: .75; font-size: 12px; margin-top: 4px; }
+
+  /* ── Submit ── */
+  .submit-wrap {
+    max-width: 720px; margin: 24px auto 0; padding: 0 20px;
+  }
+  .btn-submit {
+    width: 100%; padding: 16px; border-radius: 12px;
+    background: var(--accent); color: #fff;
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+    letter-spacing: .02em; transition: opacity .2s, transform .1s;
+  }
+  .btn-submit:hover { opacity: .9; }
+  .btn-submit:active { transform: scale(.99); }
+  .btn-submit:disabled { opacity: .45; cursor: default; }
+
+  /* ── Results ── */
+  .results-wrap {
+    max-width: 720px; margin: 24px auto 0; padding: 0 20px;
+    display: none;
+  }
+  .results-wrap.show { display: block; }
+  .results-card {
+    background: var(--card); border-radius: 16px;
+    border: 2px solid var(--accent); padding: 28px 28px 24px;
+    text-align: center;
+  }
+  .score-big {
+    font-family: 'DM Serif Display', serif;
+    font-size: 64px; color: var(--accent);
+    line-height: 1; margin-bottom: 8px;
+  }
+  .score-label { font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+  .level-badge {
+    display: inline-block; padding: 6px 20px; border-radius: 20px;
+    font-size: 13px; font-weight: 600; margin-bottom: 18px;
+  }
+  .verdict { font-size: 15px; line-height: 1.65; color: var(--text); max-width: 480px; margin: 0 auto 20px; }
+  .verdict-tr { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .bar-wrap { background: #e8e6e0; border-radius: 8px; height: 10px; overflow: hidden; margin-bottom: 24px; }
+  .bar-fill { height: 100%; background: var(--accent); border-radius: 8px; transition: width 1s ease; width: 0; }
+  .btn-retry {
+    padding: 12px 28px; border-radius: 10px;
+    background: transparent; color: var(--accent);
+    border: 2px solid var(--accent); cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    transition: background .15s;
+  }
+  .btn-retry:hover { background: var(--accent-light); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">AP CSP · Unit 1 · English Language Test</div>
+  <h1>Digital Information<br><em>Language Check</em></h1>
+  <p class="hero-sub">A B1-level reading & vocabulary test using Unit 1 topics. No coding knowledge needed — only English comprehension.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📋 10 Questions</span>
+    <span class="meta-pill">🎯 B1 Level</span>
+    <span class="meta-pill">⏱ ~15 minutes</span>
+    <span class="meta-pill">🌐 Topic: Digital Information</span>
+  </div>
+</div>
+
+<!-- INSTRUCTIONS -->
+<div class="instructions">
+  <div class="instr-card">
+    <div class="instr-item">
+      <strong>What is this test?</strong><br>
+      This test checks if you can read and understand English at B1 level using computer science vocabulary from Unit 1.
+    </div>
+    <div class="instr-item">
+      <strong>Bu test nedir?</strong><br>
+      Bu test, Ünite 1 konularında İngilizce okuma ve kelime anlama seviyenizi ölçer. Kodlama bilgisi gerekmez.
+    </div>
+    <div class="instr-item">
+      <strong>How to answer:</strong><br>
+      Read each question carefully. Choose the best answer, fill in the blank, or match the words. Press "Check My Answers" when finished.
+    </div>
+    <div class="instr-item">
+      <strong>Nasıl cevaplanır:</strong><br>
+      Her soruyu dikkatlice okuyun. En iyi cevabı seçin, boşluğu doldurun veya eşleştirin. Bitince "Check My Answers" butonuna basın.
+    </div>
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<div class="questions" id="quiz">
+
+  <!-- Q1 — Vocabulary MCQ -->
+  <div class="q-card" id="q1">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div>
+        <div class="q-type">Vocabulary — Choose the best definition</div>
+        <div class="q-text">In computer science, a <strong>"bit"</strong> is the smallest unit of digital information. A bit can only have one of two values. What are these two values?</div>
+      </div>
+    </div>
+    <div class="options" data-answer="b">
+      <div class="option" data-val="a" onclick="selectOption(this)"><span class="opt-letter">A</span> Yes or No</div>
+      <div class="option" data-val="b" onclick="selectOption(this)"><span class="opt-letter">B</span> 0 or 1</div>
+      <div class="option" data-val="c" onclick="selectOption(this)"><span class="opt-letter">C</span> True or False</div>
+      <div class="option" data-val="d" onclick="selectOption(this)"><span class="opt-letter">D</span> On or Off</div>
+    </div>
+    <div class="q-feedback" id="fb1">
+      <strong>✓ Correct!</strong> A bit has exactly two values: 0 or 1. This is called the binary number system.<br>
+      <span class="feedback-tr">Doğru! Bir bit yalnızca 0 veya 1 değerini alabilir. Buna ikili (binary) sayı sistemi denir.</span>
+    </div>
+  </div>
+
+  <!-- Q2 — Fill in the blank -->
+  <div class="q-card" id="q2">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div>
+        <div class="q-type">Fill in the Blank — Complete the sentence</div>
+        <div class="q-text">
+          Read the sentence and fill in the missing word:<br><br>
+          "Computers store all information — numbers, text, images, and sound — using only two symbols: 0 and 1. This system is called the <span class="blank-wrap"><input class="blank-input" id="ans2" type="text" placeholder="______" autocomplete="off" spellcheck="false"></span> number system."
+        </div>
+      </div>
+    </div>
+    <div class="q-feedback" id="fb2"></div>
+  </div>
+
+  <!-- Q3 — Reading comprehension MCQ -->
+  <div class="q-card" id="q3">
+    <div class="q-header">
+      <div class="q-num">3</div>
+      <div>
+        <div class="q-type">Reading Comprehension — Read and answer</div>
+        <div class="q-text">
+          Read this short text:<br><br>
+          <em>"When we write the letter 'A' on a computer, the computer does not store the letter itself. Instead, it stores a number that represents 'A'. For example, in the ASCII system, the letter 'A' is stored as the number 65."</em><br><br>
+          According to the text, how does a computer store the letter "A"?
+        </div>
+      </div>
+    </div>
+    <div class="options" data-answer="c">
+      <div class="option" data-val="a" onclick="selectOption(this)"><span class="opt-letter">A</span> It stores the letter "A" directly as a picture.</div>
+      <div class="option" data-val="b" onclick="selectOption(this)"><span class="opt-letter">B</span> It stores the sound of the letter "A".</div>
+      <div class="option" data-val="c" onclick="selectOption(this)"><span class="opt-letter">C</span> It stores a number (65) that represents the letter "A".</div>
+      <div class="option" data-val="d" onclick="selectOption(this)"><span class="opt-letter">D</span> It stores nothing — letters cannot be saved on computers.</div>
+    </div>
+    <div class="q-feedback" id="fb3"></div>
+  </div>
+
+  <!-- Q4 — Vocabulary MCQ -->
+  <div class="q-card" id="q4">
+    <div class="q-header">
+      <div class="q-num">4</div>
+      <div>
+        <div class="q-type">Vocabulary — Choose the correct meaning</div>
+        <div class="q-text">What does the word <strong>"compress"</strong> mean in the context of digital files?</div>
+      </div>
+    </div>
+    <div class="options" data-answer="b">
+      <div class="option" data-val="a" onclick="selectOption(this)"><span class="opt-letter">A</span> To make a file larger so it has more information.</div>
+      <div class="option" data-val="b" onclick="selectOption(this)"><span class="opt-letter">B</span> To reduce the size of a file so it uses less storage space.</div>
+      <div class="option" data-val="c" onclick="selectOption(this)"><span class="opt-letter">C</span> To copy a file to another computer.</div>
+      <div class="option" data-val="d" onclick="selectOption(this)"><span class="opt-letter">D</span> To delete a file permanently from a device.</div>
+    </div>
+    <div class="q-feedback" id="fb4"></div>
+  </div>
+
+  <!-- Q5 — Reading comprehension -->
+  <div class="q-card" id="q5">
+    <div class="q-header">
+      <div class="q-num">5</div>
+      <div>
+        <div class="q-type">Reading Comprehension — Read and answer</div>
+        <div class="q-text">
+          Read this short text:<br><br>
+          <em>"There are two types of compression. <strong>Lossless</strong> compression reduces the file size but keeps all the original information — when you open the file again, nothing is missing. <strong>Lossy</strong> compression makes the file much smaller, but some information is permanently removed. JPEG images and MP3 music files use lossy compression."</em><br><br>
+          Which statement is TRUE according to the text?
+        </div>
+      </div>
+    </div>
+    <div class="options" data-answer="a">
+      <div class="option" data-val="a" onclick="selectOption(this)"><span class="opt-letter">A</span> With lossless compression, you can recover all the original information.</div>
+      <div class="option" data-val="b" onclick="selectOption(this)"><span class="opt-letter">B</span> JPEG images use lossless compression.</div>
+      <div class="option" data-val="c" onclick="selectOption(this)"><span class="opt-letter">C</span> Lossy compression keeps all the original information.</div>
+      <div class="option" data-val="d" onclick="selectOption(this)"><span class="opt-letter">D</span> Lossless compression always creates smaller files than lossy compression.</div>
+    </div>
+    <div class="q-feedback" id="fb5"></div>
+  </div>
+
+  <!-- Q6 — Fill in the blank -->
+  <div class="q-card" id="q6">
+    <div class="q-header">
+      <div class="q-num">6</div>
+      <div>
+        <div class="q-type">Fill in the Blank — Complete the sentence</div>
+        <div class="q-text">
+          "A digital image is made of many tiny squares called <span class="blank-wrap"><input class="blank-input" id="ans6" type="text" placeholder="______" autocomplete="off" spellcheck="false"></span>. Each one has a specific color value."
+        </div>
+      </div>
+    </div>
+    <div class="q-feedback" id="fb6"></div>
+  </div>
+
+  <!-- Q7 — Matching -->
+  <div class="q-card" id="q7">
+    <div class="q-header">
+      <div class="q-num">7</div>
+      <div>
+        <div class="q-type">Matching — Connect the word to its definition</div>
+        <div class="q-text">Match each term with its correct definition.</div>
+      </div>
+    </div>
+    <div class="match-grid">
+      <div class="match-col">
+        <div class="match-label">Terms</div>
+        <div class="match-item"><strong>A.</strong> Binary</div>
+        <div class="match-item"><strong>B.</strong> Pixel</div>
+        <div class="match-item"><strong>C.</strong> Overflow</div>
+        <div class="match-item"><strong>D.</strong> ASCII</div>
+      </div>
+      <div class="match-col">
+        <div class="match-label">Your Answers</div>
+        <select class="match-select" id="m7a" data-term="A">
+          <option value="">— choose —</option>
+          <option value="1">A number system that uses only 0s and 1s</option>
+          <option value="2">The smallest element of a digital image</option>
+          <option value="3">An error when a number is too large to store</option>
+          <option value="4">A system that represents text as numbers</option>
+        </select>
+        <select class="match-select" id="m7b" data-term="B">
+          <option value="">— choose —</option>
+          <option value="1">A number system that uses only 0s and 1s</option>
+          <option value="2">The smallest element of a digital image</option>
+          <option value="3">An error when a number is too large to store</option>
+          <option value="4">A system that represents text as numbers</option>
+        </select>
+        <select class="match-select" id="m7c" data-term="C">
+          <option value="">— choose —</option>
+          <option value="1">A number system that uses only 0s and 1s</option>
+          <option value="2">The smallest element of a digital image</option>
+          <option value="3">An error when a number is too large to store</option>
+          <option value="4">A system that represents text as numbers</option>
+        </select>
+        <select class="match-select" id="m7d" data-term="D">
+          <option value="">— choose —</option>
+          <option value="1">A number system that uses only 0s and 1s</option>
+          <option value="2">The smallest element of a digital image</option>
+          <option value="3">An error when a number is too large to store</option>
+          <option value="4">A system that represents text as numbers</option>
+        </select>
+      </div>
+    </div>
+    <div class="q-feedback" id="fb7"></div>
+  </div>
+
+  <!-- Q8 — Reading + inference -->
+  <div class="q-card" id="q8">
+    <div class="q-header">
+      <div class="q-num">8</div>
+      <div>
+        <div class="q-type">Reading Comprehension — Inference</div>
+        <div class="q-text">
+          Read this short text:<br><br>
+          <em>"Intellectual property means that people can own their creative work. If a musician writes a song, they own that song. Other people cannot copy or sell it without permission. However, some creators use <strong>Creative Commons</strong> licenses, which allow others to use their work for free — sometimes with conditions, like giving credit to the original creator."</em><br><br>
+          What can you understand from this text about Creative Commons licenses?
+        </div>
+      </div>
+    </div>
+    <div class="options" data-answer="c">
+      <div class="option" data-val="a" onclick="selectOption(this)"><span class="opt-letter">A</span> Creative Commons licenses make all work completely private.</div>
+      <div class="option" data-val="b" onclick="selectOption(this)"><span class="opt-letter">B</span> Creative Commons licenses cost a lot of money to use.</div>
+      <div class="option" data-val="c" onclick="selectOption(this)"><span class="opt-letter">C</span> Creative Commons licenses allow others to use creative work, sometimes with conditions.</div>
+      <div class="option" data-val="d" onclick="selectOption(this)"><span class="opt-letter">D</span> Creative Commons licenses are only for musicians.</div>
+    </div>
+    <div class="q-feedback" id="fb8"></div>
+  </div>
+
+  <!-- Q9 — Vocabulary in context -->
+  <div class="q-card" id="q9">
+    <div class="q-header">
+      <div class="q-num">9</div>
+      <div>
+        <div class="q-type">Vocabulary in Context — Choose the best word</div>
+        <div class="q-text">
+          Choose the word that best completes the sentence:<br><br>
+          "When a computer converts a photograph into a digital file, it must ______ the image — this means changing continuous real-world colors into discrete numbers that a computer can store."
+        </div>
+      </div>
+    </div>
+    <div class="options" data-answer="b">
+      <div class="option" data-val="a" onclick="selectOption(this)"><span class="opt-letter">A</span> delete</div>
+      <div class="option" data-val="b" onclick="selectOption(this)"><span class="opt-letter">B</span> digitize</div>
+      <div class="option" data-val="c" onclick="selectOption(this)"><span class="opt-letter">C</span> compress</div>
+      <div class="option" data-val="d" onclick="selectOption(this)"><span class="opt-letter">D</span> protect</div>
+    </div>
+    <div class="q-feedback" id="fb9"></div>
+  </div>
+
+  <!-- Q10 — Extended reading -->
+  <div class="q-card" id="q10">
+    <div class="q-header">
+      <div class="q-num">10</div>
+      <div>
+        <div class="q-type">Reading Comprehension — Main Idea</div>
+        <div class="q-text">
+          Read this paragraph:<br><br>
+          <em>"At first, it might seem surprising that all digital information — a movie, a song, a text message, a photograph — is stored using only two values: 0 and 1. But this is the foundation of modern computing. By combining billions of bits together, computers can represent an almost unlimited amount of complex information. The simplicity of the system is actually its greatest strength: electronic devices can reliably detect the difference between 'on' (1) and 'off' (0), making errors very rare."</em><br><br>
+          What is the <strong>main idea</strong> of this paragraph?
+        </div>
+      </div>
+    </div>
+    <div class="options" data-answer="b">
+      <div class="option" data-val="a" onclick="selectOption(this)"><span class="opt-letter">A</span> Movies and songs are the most important types of digital information.</div>
+      <div class="option" data-val="b" onclick="selectOption(this)"><span class="opt-letter">B</span> All digital information is based on just two values (0 and 1), and this simple system is powerful because it is reliable.</div>
+      <div class="option" data-val="c" onclick="selectOption(this)"><span class="opt-letter">C</span> Computers make many errors because they only use two values.</div>
+      <div class="option" data-val="d" onclick="selectOption(this)"><span class="opt-letter">D</span> Electronic devices are difficult to build because they need billions of bits.</div>
+    </div>
+    <div class="q-feedback" id="fb10"></div>
+  </div>
+
+</div>
+
+<!-- SUBMIT -->
+<div class="submit-wrap">
+  <button class="btn-submit" id="submitBtn" onclick="checkAll()">Check My Answers</button>
+</div>
+
+<!-- RESULTS -->
+<div class="results-wrap" id="results">
+  <div class="results-card">
+    <div class="score-big" id="scoreNum">0/10</div>
+    <div class="score-label">correct answers</div>
+    <div class="bar-wrap"><div class="bar-fill" id="barFill"></div></div>
+    <div class="level-badge" id="levelBadge"></div>
+    <div class="verdict" id="verdict"></div>
+    <button class="btn-retry" onclick="retry()">↺ Try Again / Tekrar Dene</button>
+  </div>
+</div>
+
+<script>
+// ── State ──
+const answers = {};
+
+// ── MCQ selection ──
+function selectOption(el) {
+  const card = el.closest('.options');
+  if (card.dataset.locked) return;
+  card.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const qNum = el.closest('.q-card').id.replace('q','');
+  answers['q' + qNum] = el.dataset.val;
+}
+
+// ── Fill-in answers ──
+const fillAnswers = {
+  ans2: ['binary'],
+  ans6: ['pixels', 'pixel']
+};
+
+// ── Matching answers: A=1,B=2,C=3,D=4 ──
+const matchAnswers = { m7a:'1', m7b:'2', m7c:'3', m7d:'4' };
+
+// ── Feedback texts ──
+const feedbacks = {
+  q1: {
+    ok: '<strong>✓ Correct!</strong> A bit has exactly two values: 0 or 1 — the binary system.',
+    ok_tr: 'Doğru! Bir bit yalnızca 0 veya 1 değerini alır.',
+    bad: '<strong>✗ Not quite.</strong> The correct answer is <strong>B: 0 or 1</strong>. Although "True/False" or "On/Off" describe the same idea, in computer science we use the numbers 0 and 1.',
+    bad_tr: 'Doğru cevap B\'dir: 0 veya 1. "True/False" veya "On/Off" benzer fikirleri ifade etse de, bilgisayar biliminde 0 ve 1 sayıları kullanılır.'
+  },
+  q2: {
+    ok: '<strong>✓ Correct!</strong> The word is "binary" — from the Latin word for "two", because the system uses exactly two symbols.',
+    ok_tr: 'Doğru! Kelime "binary"dir — Latince "iki" anlamına gelir, çünkü sistem yalnızca iki sembol kullanır.',
+    bad: '<strong>✗ Not quite.</strong> The correct word is <strong>"binary"</strong>. It comes from the Latin word for "two" and describes the system that uses only 0 and 1.',
+    bad_tr: 'Doğru kelime "binary"dir. Latince "iki" anlamından gelir ve yalnızca 0 ile 1\'i kullanan sistemi tanımlar.'
+  },
+  q3: {
+    ok: '<strong>✓ Correct!</strong> According to the text, the computer stores the number 65, which represents "A" in the ASCII system.',
+    ok_tr: 'Doğru! Metne göre bilgisayar, ASCII sisteminde "A" harfini temsil eden 65 sayısını saklar.',
+    bad: '<strong>✗ Not quite.</strong> The correct answer is <strong>C</strong>. The text clearly says the computer stores a number (65) that represents the letter.',
+    bad_tr: 'Doğru cevap C\'dir. Metin, bilgisayarın harfi temsil eden bir sayı (65) sakladığını açıkça belirtir.'
+  },
+  q4: {
+    ok: '<strong>✓ Correct!</strong> To compress a file means to reduce its size so it takes up less storage space.',
+    ok_tr: 'Doğru! Bir dosyayı "compress" etmek, daha az depolama alanı kaplaması için boyutunu küçültmek demektir.',
+    bad: '<strong>✗ Not quite.</strong> The correct answer is <strong>B</strong>. "Compress" means to reduce the size of something. In computing, it means making a file smaller.',
+    bad_tr: 'Doğru cevap B\'dir. "Compress" bir şeyin boyutunu azaltmak demektir. Bilgisayar biliminde bir dosyayı küçültmek anlamına gelir.'
+  },
+  q5: {
+    ok: '<strong>✓ Correct!</strong> The text states that lossless compression keeps all original information, so it can be fully recovered.',
+    ok_tr: 'Doğru! Metin, kayıpsız (lossless) sıkıştırmanın tüm orijinal bilgiyi koruduğunu belirtir.',
+    bad: '<strong>✗ Not quite.</strong> The correct answer is <strong>A</strong>. The text says lossless compression keeps all original information — "nothing is missing". JPEG uses lossy, not lossless.',
+    bad_tr: 'Doğru cevap A\'dır. Metin, lossless sıkıştırmanın tüm bilgiyi koruduğunu söyler. JPEG ise lossy sıkıştırma kullanır.'
+  },
+  q6: {
+    ok: '<strong>✓ Correct!</strong> A digital image is made of tiny squares called "pixels". Each pixel has a color value stored as a number.',
+    ok_tr: 'Doğru! Dijital bir görsel, "pixel" (piksel) adı verilen küçük karelerden oluşur. Her pikselin renk değeri bir sayı olarak saklanır.',
+    bad: '<strong>✗ Not quite.</strong> The correct word is <strong>"pixels"</strong> (singular: pixel). These are the tiny squares that make up a digital image.',
+    bad_tr: 'Doğru kelime "pixels"tir (tekil: pixel). Bunlar dijital bir görseli oluşturan küçük karelerdir.'
+  },
+  q7: {
+    ok: '<strong>✓ All correct!</strong> Great work matching the terms to their definitions.',
+    ok_tr: 'Tüm eşleştirmeler doğru! Harika iş.',
+    bad: '<strong>✗ Some matches were incorrect.</strong> Correct answers: A→Binary (0s and 1s), B→Pixel (image element), C→Overflow (storage error), D→ASCII (text encoding system).',
+    bad_tr: 'Bazı eşleştirmeler yanlış. Doğru cevaplar: A→Binary (0 ve 1), B→Pixel (görsel öğesi), C→Overflow (depolama hatası), D→ASCII (metin kodlama sistemi).'
+  },
+  q8: {
+    ok: '<strong>✓ Correct!</strong> Creative Commons licenses allow others to use creative work, often with specific conditions like giving credit.',
+    ok_tr: 'Doğru! Creative Commons lisansları, başkalarının yaratıcı eserleri kullanmasına — çoğunlukla kaynak gösterme gibi koşullarla — izin verir.',
+    bad: '<strong>✗ Not quite.</strong> The correct answer is <strong>C</strong>. The text says Creative Commons "allows others to use their work for free — sometimes with conditions".',
+    bad_tr: 'Doğru cevap C\'dir. Metin, Creative Commons\'ın "bazen koşullarla birlikte başkalarının çalışmayı ücretsiz kullanmasına izin verdiğini" belirtir.'
+  },
+  q9: {
+    ok: '<strong>✓ Correct!</strong> "Digitize" means to convert something (like a photograph) into digital format — a series of numbers a computer can store.',
+    ok_tr: 'Doğru! "Digitize" (dijitalleştirmek), bir şeyi (fotoğraf gibi) bilgisayarın saklayabileceği sayısal bir biçime dönüştürmek demektir.',
+    bad: '<strong>✗ Not quite.</strong> The correct answer is <strong>B: digitize</strong>. This word means to convert real-world information into digital (number-based) form.',
+    bad_tr: 'Doğru cevap B\'dir: "digitize". Bu kelime, gerçek dünyadaki bilgiyi dijital (sayı tabanlı) forma dönüştürmek demektir.'
+  },
+  q10: {
+    ok: '<strong>✓ Correct!</strong> The main idea is that the binary system (0s and 1s) — though simple — is the powerful foundation of all digital information.',
+    ok_tr: 'Doğru! Ana fikir, ikili sistemin (0\'lar ve 1\'ler) basit olmasına rağmen tüm dijital bilginin güçlü temeli olduğudur.',
+    bad: '<strong>✗ Not quite.</strong> The correct answer is <strong>B</strong>. The paragraph\'s main point is that despite using only two values, the binary system can represent enormous amounts of information reliably.',
+    bad_tr: 'Doğru cevap B\'dir. Paragrafın ana fikri, yalnızca iki değer kullanan ikili sistemin büyük miktarda bilgiyi güvenilir şekilde temsil edebildiğidir.'
+  }
+};
+
+// ── Check all answers ──
+function checkAll() {
+  let score = 0;
+  const total = 10;
+
+  // Q1,3,4,5,8,9,10 — MCQ
+  ['q1','q3','q4','q5','q8','q9','q10'].forEach(qid => {
+    const card = document.getElementById(qid);
+    const opts = card.querySelector('.options');
+    const correct = opts.dataset.answer;
+    const chosen = answers[qid];
+    opts.dataset.locked = 'true';
+    opts.querySelectorAll('.option').forEach(o => {
+      if (o.dataset.val === correct) o.classList.add('reveal-correct');
+      else if (o.dataset.val === chosen && chosen !== correct) o.classList.add('incorrect');
+    });
+    const fb = document.getElementById('fb' + qid.replace('q',''));
+    fb.classList.add('show');
+    if (chosen === correct) {
+      score++;
+      fb.classList.add('ok');
+      fb.innerHTML = feedbacks[qid].ok + '<div class="feedback-tr">' + feedbacks[qid].ok_tr + '</div>';
+    } else {
+      fb.classList.add('bad');
+      fb.innerHTML = feedbacks[qid].bad + '<div class="feedback-tr">' + feedbacks[qid].bad_tr + '</div>';
+    }
+  });
+
+  // Q2 — fill-in binary
+  const ans2 = document.getElementById('ans2');
+  const val2 = ans2.value.trim().toLowerCase();
+  ans2.disabled = true;
+  const fb2 = document.getElementById('fb2');
+  fb2.classList.add('show');
+  if (fillAnswers.ans2.includes(val2)) {
+    score++; ans2.classList.add('correct');
+    fb2.classList.add('ok');
+    fb2.innerHTML = feedbacks.q2.ok + '<div class="feedback-tr">' + feedbacks.q2.ok_tr + '</div>';
+  } else {
+    ans2.classList.add('incorrect');
+    fb2.classList.add('bad');
+    fb2.innerHTML = feedbacks.q2.bad + '<div class="feedback-tr">' + feedbacks.q2.bad_tr + '</div>';
+  }
+
+  // Q6 — fill-in pixels
+  const ans6 = document.getElementById('ans6');
+  const val6 = ans6.value.trim().toLowerCase();
+  ans6.disabled = true;
+  const fb6 = document.getElementById('fb6');
+  fb6.classList.add('show');
+  if (fillAnswers.ans6.includes(val6)) {
+    score++; ans6.classList.add('correct');
+    fb6.classList.add('ok');
+    fb6.innerHTML = feedbacks.q6.ok + '<div class="feedback-tr">' + feedbacks.q6.ok_tr + '</div>';
+  } else {
+    ans6.classList.add('incorrect');
+    fb6.classList.add('bad');
+    fb6.innerHTML = feedbacks.q6.bad + '<div class="feedback-tr">' + feedbacks.q6.bad_tr + '</div>';
+  }
+
+  // Q7 — matching
+  let matchScore = 0;
+  Object.entries(matchAnswers).forEach(([id, correct]) => {
+    const sel = document.getElementById(id);
+    sel.disabled = true;
+    if (sel.value === correct) { matchScore++; sel.classList.add('correct'); }
+    else sel.classList.add('incorrect');
+  });
+  const fb7 = document.getElementById('fb7');
+  fb7.classList.add('show');
+  if (matchScore === 4) {
+    score++;
+    fb7.classList.add('ok');
+    fb7.innerHTML = feedbacks.q7.ok + '<div class="feedback-tr">' + feedbacks.q7.ok_tr + '</div>';
+  } else {
+    fb7.classList.add('bad');
+    fb7.innerHTML = feedbacks.q7.bad + '<div class="feedback-tr">' + feedbacks.q7.bad_tr + '</div>';
+  }
+
+  // Show results
+  showResults(score, total);
+  document.getElementById('submitBtn').disabled = true;
+}
+
+function showResults(score, total) {
+  const pct = Math.round((score/total)*100);
+  document.getElementById('scoreNum').textContent = score + '/' + total;
+  
+  const bar = document.getElementById('barFill');
+  setTimeout(() => bar.style.width = pct + '%', 100);
+
+  const badge = document.getElementById('levelBadge');
+  const verdict = document.getElementById('verdict');
+  
+  let level, color, bg, msg, msgTr;
+  if (pct >= 80) {
+    level = 'B1+ Ready ✓'; color = '#0a5c30'; bg = '#d1f0e0';
+    msg = 'Excellent work! Your English reading and vocabulary are strong enough to follow the AP CSP course materials comfortably. You are ready for B1-level academic English.';
+    msgTr = 'Harika! İngilizce okuma ve kelime bilginiz AP CSP ders materyallerini rahatlıkla takip etmenize yeterlidir. B1 akademik İngilizceye hazırsınız.';
+  } else if (pct >= 60) {
+    level = 'Developing B1'; color = '#7a5200'; bg = '#fff3cd';
+    msg = 'Good effort! You understand most of the vocabulary and key ideas, but some gaps remain. With a little extra support — like vocabulary lists and bilingual materials — you will be fully ready soon.';
+    msgTr = 'İyi iş! Kelimelerin ve ana fikirlerin büyük bölümünü anlıyorsunuz, ancak bazı eksikler var. Kelime listeleri ve ikidilli materyallerle kısa sürede tam hazır olacaksınız.';
+  } else {
+    level = 'Needs Support'; color = '#8a1a1a'; bg = '#fbeaea';
+    msg = 'You are still building your English skills. This is completely normal! The course will provide bilingual support throughout. Focus on the key vocabulary list and ask your teacher for help when needed.';
+    msgTr = 'İngilizce becerilerinizi geliştirme sürecindesiniz — bu tamamen normal! Ders boyunca ikidilli destek sağlanacak. Anahtar kelime listesine odaklanın ve ihtiyaç duyduğunuzda öğretmenizden yardım isteyin.';
+  }
+
+  badge.style.background = bg; badge.style.color = color;
+  badge.textContent = level;
+  verdict.innerHTML = msg + '<div class="verdict-tr">' + msgTr + '</div>';
+
+  const wrap = document.getElementById('results');
+  wrap.classList.add('show');
+  wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function retry() {
+  location.reload();
+}
+</script>
+</body>
+</html>

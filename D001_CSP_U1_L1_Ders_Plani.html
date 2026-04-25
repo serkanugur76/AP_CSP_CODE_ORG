@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP CSP — Ünite 1 Ders 1: Welcome to CSP</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    background: #f5f4f0;
+    color: #1a1a18;
+    padding: 24px 16px 48px;
+  }
+
+  .container { max-width: 780px; margin: 0 auto; }
+
+  /* ── Header ── */
+  .lp-header {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #ddd;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .lp-header h1 { font-size: 20px; font-weight: 600; color: #1a1a18; margin-bottom: 4px; }
+  .lp-header p  { font-size: 13px; color: #666; margin-bottom: 12px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .meta-pill {
+    font-size: 11px; padding: 3px 10px; border-radius: 12px;
+    background: #f0efe9; border: 1px solid #d6d4cc; color: #555;
+  }
+
+  /* ── Vocab ── */
+  .vocab-section {
+    background: #fff; border-radius: 12px; border: 1px solid #ddd;
+    padding: 16px 20px; margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  }
+  .section-title {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .06em; color: #888; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .vocab-row {
+    display: flex; gap: 12px; align-items: baseline;
+    padding: 5px 0; border-bottom: 1px solid #f0efe9; font-size: 13px;
+  }
+  .vocab-row:last-child { border-bottom: none; }
+  .vocab-en { font-weight: 600; min-width: 150px; color: #1a1a18; }
+  .vocab-tr { color: #555; }
+
+  /* ── Phase cards ── */
+  .phase {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  }
+  .phase-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 18px; cursor: pointer;
+    user-select: none; transition: background .15s;
+  }
+  .phase-header:hover { background: #faf9f7; }
+  .phase-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .ph-warmup  .phase-num { background: #fff3cd; color: #8a6200; }
+  .ph-activity .phase-num { background: #d6eaff; color: #0a4c8a; }
+  .ph-wrap    .phase-num { background: #d1f0e0; color: #0a5c30; }
+  .ph-notes   .phase-num { background: #fde0e0; color: #8a1a1a; }
+  .ph-vocab   .phase-num { background: #ede9ff; color: #3a2080; }
+  .phase-title { font-weight: 600; flex: 1; color: #1a1a18; font-size: 14px; }
+  .phase-time { font-size: 11px; color: #888; }
+  .phase-arrow { font-size: 11px; color: #aaa; transition: transform .2s; }
+  .phase-arrow.open { transform: rotate(90deg); }
+
+  .phase-body { padding: 0 18px; display: none; border-top: 1px solid #f0efe9; }
+  .phase-body.open { display: block; padding: 14px 18px 18px; }
+
+  /* ── Steps ── */
+  .step { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #f0efe9; }
+  .step:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .step-label {
+    font-size: 11px; font-weight: 700; color: #888;
+    text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px;
+  }
+
+  /* ── Bilingual grid ── */
+  .bilingual { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+  @media (max-width: 560px) { .bilingual { grid-template-columns: 1fr; } }
+
+  .lang-box { border-radius: 8px; padding: 10px 12px; font-size: 13px; line-height: 1.65; }
+  .lang-tag { font-size: 10px; font-weight: 700; margin-bottom: 5px; opacity: .65; letter-spacing: .04em; }
+  .en-box { background: #e8f2ff; border: 1px solid #bad4f5; }
+  .tr-box { background: #fff8e6; border: 1px solid #f5dfa0; }
+
+  /* ── Tip box ── */
+  .tip-box {
+    background: #f0faf4; border: 1px solid #a8dfc0; border-radius: 8px;
+    padding: 9px 13px; font-size: 13px; color: #1a1a18; margin-top: 8px; line-height: 1.7;
+  }
+
+  /* ── Sub-step ── */
+  .substep-title { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 7px; }
+
+  /* ── Teacher notes list ── */
+  .notes-list { list-style: none; padding: 0; }
+  .notes-list li {
+    padding: 6px 0 6px 0; border-bottom: 1px solid #f0efe9;
+    font-size: 13px; line-height: 1.7; display: flex; gap: 8px;
+  }
+  .notes-list li:last-child { border-bottom: none; }
+  .notes-list li .icon { flex-shrink: 0; }
+
+  /* ── Buttons ── */
+  .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .btn {
+    font-size: 12px; padding: 6px 14px; border-radius: 8px;
+    border: 1px solid #bad4f5; background: #e8f2ff; color: #0a4c8a;
+    cursor: pointer; text-decoration: none; display: inline-block;
+  }
+  .btn:hover { background: #d0e6ff; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .phase-body { display: block !important; padding: 14px 18px 18px !important; }
+    .phase-arrow { display: none; }
+    .btn-row { display: none; }
+    .phase-header { cursor: default; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="lp-header">
+    <h1>AP CSP · Ünite 1 · Ders 1: Welcome to CSP</h1>
+    <p>Bilgisayar Bilimi İlkelerine Hoş Geldiniz — İkidilli Ders Planı (TR / EN)</p>
+    <div class="meta-row">
+      <span class="meta-pill">⏱ ~45 dakika</span>
+      <span class="meta-pill">👥 Unplugged — bilgisayar gerekmez</span>
+      <span class="meta-pill">🎯 Sınıf kültürü + motivasyon</span>
+      <span class="meta-pill">📋 Malzeme: poster kağıdı, renkli kalemler</span>
+      <span class="meta-pill">🔗 code.org/csp-2025 Unit 1 Lesson 1</span>
+    </div>
+  </div>
+
+  <!-- VOCAB -->
+  <div class="phase ph-vocab">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num">📖</div>
+      <div class="phase-title">Anahtar Kelimeler / Key Vocabulary</div>
+      <span class="phase-arrow">▶</span>
+    </div>
+    <div class="phase-body">
+      <div class="vocab-row"><span class="vocab-en">Computer Science</span><span class="vocab-tr">Bilgisayar Bilimi</span></div>
+      <div class="vocab-row"><span class="vocab-en">Innovation</span><span class="vocab-tr">Yenilik — yeni ve faydalı bir buluş veya fikir</span></div>
+      <div class="vocab-row"><span class="vocab-en">Prototype</span><span class="vocab-tr">Prototip — bir fikrin taslak modeli veya çizimi</span></div>
+      <div class="vocab-row"><span class="vocab-en">Rapid Prototyping</span><span class="vocab-tr">Hızlı prototipleme — süratle taslak çıkarma yöntemi</span></div>
+      <div class="vocab-row"><span class="vocab-en">Computing Innovation</span><span class="vocab-tr">Bilgisayar destekli yenilik</span></div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 — WARM UP -->
+  <div class="phase ph-warmup">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num">1</div>
+      <div class="phase-title">Warm-Up / Giriş</div>
+      <div class="phase-time">~10 dakika</div>
+      <span class="phase-arrow">▶</span>
+    </div>
+    <div class="phase-body">
+
+      <div class="step">
+        <div class="step-label">📝 Yazılı Yansıma / Journal Prompt</div>
+        <div class="bilingual">
+          <div class="lang-box en-box">
+            <div class="lang-tag">EN — Say to class:</div>
+            "Take out your journal or a piece of paper. Write down: <em>What's something you know a lot about? Something you could teach someone else?</em>"
+          </div>
+          <div class="lang-box tr-box">
+            <div class="lang-tag">TR — Sınıfa söyle:</div>
+            "Kağıt çıkarın. Şunu yazın: <em>Çok iyi bildiğiniz, başka birine öğretebileceğiniz bir şey nedir?</em>"
+          </div>
+        </div>
+        <div class="tip-box">⏱ <strong>2–3 dakika bireysel yazma</strong> — kimseyle paylaşmadan. Müzik, spor, yemek, oyun, her şey olabilir. Türk öğrenciler için örnek: futbol, baklava tarifi, bir şehrin tarihi, bir dizi...</div>
+      </div>
+
+      <div class="step">
+        <div class="step-label">👥 Grup Paylaşımı / Group Share</div>
+        <div class="bilingual">
+          <div class="lang-box en-box">
+            <div class="lang-tag">EN:</div>
+            "Get into groups of 3–4. Take turns: each person shares their topic and teaches the group something small about it in 1 minute."
+          </div>
+          <div class="lang-box tr-box">
+            <div class="lang-tag">TR:</div>
+            "3–4 kişilik gruplara geçin. Sırayla konunuzu paylaşın — her kişi 1 dakikada gruba bir şey öğretsin."
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-label">💬 Geçiş Sorusu / Bridge Question</div>
+        <div class="bilingual">
+          <div class="lang-box en-box">
+            <div class="lang-tag">EN:</div>
+            "Now think: is technology involved in your topic in any way — even a small way? How?"
+          </div>
+          <div class="lang-box tr-box">
+            <div class="lang-tag">TR:</div>
+            "Şimdi düşünün: teknoloji sizin konunuzla herhangi bir şekilde ilişkili mi? Nasıl?"
+          </div>
+        </div>
+        <div class="tip-box">✅ <strong>Amaç:</strong> Öğrencilerin kendi ilgi alanlarını bilgisayar bilimiyle bağdaştırmaya başlaması. "Teknoloji her yerdedir" mesajını öğrencilerin kendisinin keşfetmesini sağlayın — siz söylemeyin.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 2 — ACTIVITY -->
+  <div class="phase ph-activity">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num">2</div>
+      <div class="phase-title">Ana Aktivite — Rapid Prototyping</div>
+      <div class="phase-time">~25 dakika</div>
+      <span class="phase-arrow open">▶</span>
+    </div>
+    <div class="phase-body open">
+
+      <div class="step">
+        <div class="step-label">📢 Kavramı Tanıtma / Introduce the Concept</div>
+        <div class="bilingual">
+          <div class="lang-box en-box">
+            <div class="lang-tag">EN — Teacher says:</div>
+            "People say technology affects everything. Is that true? Let's find out. We're going to do <strong>rapid prototyping</strong>. A <em>prototype</em> is a quick sketch or model of a new idea — not a finished product, just a rough vision of something that could exist."
+          </div>
+          <div class="lang-box tr-box">
+            <div class="lang-tag">TR — Öğretmen der ki:</div>
+            "Teknoloji her şeyi etkiler derler. Doğru mu? Bunu biz göreceğiz. <strong>Hızlı prototipleme</strong> yapacağız. <em>Prototip</em>, yeni bir fikrin taslak çizimidir — bitmiş ürün değil, sadece bir vizyon."
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-label">🔨 Aktivite Adımları / Activity Steps</div>
+
+        <div style="margin-bottom:14px">
+          <div class="substep-title">Adım A — Beyin Fırtınası (5 dk)</div>
+          <div class="bilingual">
+            <div class="lang-box en-box">
+              <div class="lang-tag">EN:</div>
+              "In your group, go around: for each person's topic, brainstorm — how could a <em>new</em> technology improve it, make it faster, safer, or solve a problem in that area?"
+            </div>
+            <div class="lang-box tr-box">
+              <div class="lang-tag">TR:</div>
+              "Grupta sırayla: her kişinin konusunda beyin fırtınası — <em>yeni</em> bir teknoloji bunu nasıl geliştirebilir, hızlandırabilir veya bir sorunu çözebilir?"
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px">
+          <div class="substep-title">Adım B — En İyi Fikri Seçin (2 dk)</div>
+          <div class="bilingual">
+            <div class="lang-box en-box">
+              <div class="lang-tag">EN:</div>
+              "As a group, pick the <strong>one idea</strong> you think would be most interesting to the whole class."
+            </div>
+            <div class="lang-box tr-box">
+              <div class="lang-tag">TR:</div>
+              "Grup olarak, sınıfın en çok ilgisini çekeceğini düşündüğünüz <strong>bir fikir</strong> seçin."
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="substep-title">Adım C — Poster Yapın (10 dk)</div>
+          <div class="bilingual">
+            <div class="lang-box en-box">
+              <div class="lang-tag">EN:</div>
+              "Sketch your idea on a poster. It doesn't have to be perfect — it's a <em>rapid</em> prototype! Include: what the innovation is, who benefits, and how it works."
+            </div>
+            <div class="lang-box tr-box">
+              <div class="lang-tag">TR:</div>
+              "Fikrinizi postere çizin. Mükemmel olmak zorunda değil — bu <em>hızlı</em> prototip! Şunları gösterin: yenilik nedir, kime faydalı, nasıl çalışır."
+            </div>
+          </div>
+          <div class="tip-box">🎨 <strong>İpucu:</strong> Sanatçı olmak gerekmiyor! Küçük fikirler büyük sonuçlar doğurabilir. Bir zamanlar telefon ile kısa mesaj atmak saçma bir fikir gibi görünüyordu. Grubu cesaretlendirin.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-label">🖼️ Galeri Turu / Gallery Walk (5 dk)</div>
+        <div class="bilingual">
+          <div class="lang-box en-box">
+            <div class="lang-tag">EN:</div>
+            "Post your posters on the wall. Everyone walks around silently and looks at each group's idea. You can leave sticky note comments."
+          </div>
+          <div class="lang-box tr-box">
+            <div class="lang-tag">TR:</div>
+            "Posterlerinizi duvara asın. Herkes sessizce dolaşıp diğer grupların fikirlerini incelesin. Yapışkan notla yorum bırakabilirsiniz."
+          </div>
+        </div>
+        <div class="tip-box">🌍 <strong>İkidilli sınıf ipucu:</strong> Öğrencilere yapışkan notları hem Türkçe hem İngilizce yazabileceklerini söyleyin. Dil bir engel olmasın, fikir ön plana geçsin.</div>
+      </div>
+
+      <div class="step">
+        <div class="step-label">💬 Sınıf Tartışması / Class Discussion (3 dk)</div>
+        <div class="bilingual">
+          <div class="lang-box en-box">
+            <div class="lang-tag">EN:</div>
+            "Ask 1–2 groups to briefly explain their innovation. Then ask: <em>What do these ideas have in common with computer science?</em>"
+          </div>
+          <div class="lang-box tr-box">
+            <div class="lang-tag">TR:</div>
+            "1–2 grubu kısaca açıklasın. Sonra sınıfa sorun: <em>Bu fikirlerin bilgisayar bilimiyle ortak noktası ne?</em>"
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 3 — WRAP UP -->
+  <div class="phase ph-wrap">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num">3</div>
+      <div class="phase-title">Wrap-Up / Kapanış</div>
+      <div class="phase-time">~10 dakika</div>
+      <span class="phase-arrow">▶</span>
+    </div>
+    <div class="phase-body">
+
+      <div class="step">
+        <div class="step-label">🎬 Video İzleme / Watch Video (~5 dk)</div>
+        <div class="bilingual">
+          <div class="lang-box en-box">
+            <div class="lang-tag">EN:</div>
+            "We'll watch a short video about computing innovations in the real world. As you watch, think: which of these could connect to your topic?"
+          </div>
+          <div class="lang-box tr-box">
+            <div class="lang-tag">TR:</div>
+            "Gerçek dünyadan bilgisayar yenilikleri hakkında kısa bir video izleyelim. İzlerken düşünün: bunlardan hangisi sizin konunuzla bağlantılı olabilir?"
+          </div>
+        </div>
+        <div class="tip-box">📺 <strong>Video:</strong> <a href="https://youtu.be/1x54GqfL3UY" target="_blank">youtu.be/1x54GqfL3UY</a> — Code.org resmi "What is CS?" videosu (~5 dk). Altyazıyı açmayı unutmayın.</div>
+      </div>
+
+      <div class="step">
+        <div class="step-label">✍️ Son Yansıma / Exit Reflection (~3 dk)</div>
+        <div class="bilingual">
+          <div class="lang-box en-box">
+            <div class="lang-tag">EN — Prompt:</div>
+            "In your own words: <em>What does 'computer science' mean to you right now?</em> Write 2–3 sentences."
+          </div>
+          <div class="lang-box tr-box">
+            <div class="lang-tag">TR — Yazma sorusu:</div>
+            "Kendi kelimelerinizle: <em>Sizin için şu an 'bilgisayar bilimi' ne anlama geliyor?</em> 2–3 cümle yazın."
+          </div>
+        </div>
+        <div class="tip-box">✅ Bu yanıtlar not için değil — öğrencilerin başlangıç düşüncelerini kayıt altına almak için. Yıl sonunda geri dönüp karşılaştırmak çok etkilidir.</div>
+      </div>
+
+      <div class="step">
+        <div class="step-label">🖥️ Code.org Giriş / Platform Setup (~2 dk)</div>
+        <div class="bilingual">
+          <div class="lang-box en-box">
+            <div class="lang-tag">EN:</div>
+            "Have students log into studio.code.org and join your section using your join link. They'll complete the CSP Pre-Course Survey (unlock it first from your teacher dashboard)."
+          </div>
+          <div class="lang-box tr-box">
+            <div class="lang-tag">TR:</div>
+            "Öğrenciler studio.code.org'a giriş yapıp join link ile bölümünüze katılsın. CSP Ön Anketi'ni tamamlasınlar (öğretmen panelinden önce kilidi açın)."
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TEACHER NOTES -->
+  <div class="phase ph-notes">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num">★</div>
+      <div class="phase-title">Öğretmen Notları / Teacher Notes</div>
+      <span class="phase-arrow">▶</span>
+    </div>
+    <div class="phase-body">
+      <ul class="notes-list">
+        <li><span class="icon">🔤</span><div><strong>Teknik terimleri İngilizce bırakın:</strong> <em>prototype, innovation, computing</em> — Türkçe açıklama yapın ama İngilizce terimi kullanın. AP sınavında bu terimler İngilizce çıkacak.</div></li>
+        <li><span class="icon">🗣️</span><div><strong>Her iki dili kabul edin:</strong> Fikir Türkçe söylense bile geçerlidir. Birlikte İngilizce ifadeyi bulun — bu da öğrenmenin bir parçası.</div></li>
+        <li><span class="icon">📌</span><div><strong>Bu derste not vermeyin:</strong> Amaç sınıf güveni ve heyecan kurmak. Yanlış cevap yok, her fikir değerli.</div></li>
+        <li><span class="icon">🎯</span><div><strong>Yıl başı mesajı:</strong> "Bu derste kim daha önce programlama yaptı, kim hiç yapmadı? Hiç fark etmez — bu ders ikisi için de tasarlandı."</div></li>
+        <li><span class="icon">🖼️</span><div><strong>Posterler:</strong> Galeri turunda öğrencilerin sessizce bakmasına izin verin. Posterler birkaç gün sınıfta kalsın — ders boyunca motivasyon hatırlatıcısı olur.</div></li>
+        <li><span class="icon">⚠️</span><div><strong>Pre-Course Survey:</strong> Code.org teacher dashboarddan kilidi açmayı unutmayın. Öğrenciler code.org'a giriş yapmadan anketi göremez.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="text-align:center;font-size:11px;color:#aaa;margin-top:28px;padding-top:16px;border-top:1px solid #e0dfd8">
+    AP CSP 2025 · Code.org Curriculum · Unit 1, Lesson 1 · İkidilli Ders Planı
+  </div>
+
+</div>
+
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.phase-arrow');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+}
+// Open the activity phase by default
+document.querySelectorAll('.phase-header').forEach(h => {
+  const body = h.nextElementSibling;
+  const arrow = h.querySelector('.phase-arrow');
+  if (arrow && arrow.classList.contains('open')) body.classList.add('open');
+});
+</script>
+</body>
+</html>
