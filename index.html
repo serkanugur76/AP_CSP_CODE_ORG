@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP CSP — Ders Materyalleri</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f7f5f0;
+    color: #1c1b18;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* Hero */
+  .hero {
+    background: #2d5f4f;
+    color: #fff;
+    padding: 52px 24px 44px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg, transparent, transparent 28px,
+      rgba(255,255,255,.04) 28px, rgba(255,255,255,.04) 29px
+    );
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 10px; font-weight: 600; letter-spacing: .12em;
+    text-transform: uppercase; color: #a8cfc4;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 20px; padding: 4px 14px;
+    margin-bottom: 18px; position: relative;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 400; line-height: 1.2;
+    margin-bottom: 10px; position: relative;
+  }
+  .hero h1 em { font-style: italic; color: #a8cfc4; }
+  .hero-sub {
+    font-size: 14px; color: rgba(255,255,255,.7);
+    position: relative; margin: 0 auto;
+    max-width: 420px; line-height: 1.6;
+  }
+
+  /* Content */
+  .content {
+    max-width: 720px; margin: 36px auto 0; padding: 0 20px;
+  }
+
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: #888;
+    margin-bottom: 14px; padding-left: 2px;
+  }
+
+  /* Cards */
+  .card-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+
+  .card {
+    display: flex; align-items: center; gap: 18px;
+    background: #fff; border-radius: 14px;
+    border: 1px solid #dedad3; padding: 20px 22px;
+    text-decoration: none; color: inherit;
+    transition: border-color .15s, box-shadow .15s, transform .1s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  }
+  .card:hover {
+    border-color: #a8cfc4;
+    box-shadow: 0 4px 16px rgba(45,95,79,.1);
+    transform: translateY(-1px);
+  }
+  .card:active { transform: translateY(0); }
+
+  .card-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .icon-plan  { background: #e8f3ef; }
+  .icon-test  { background: #fff3cd; }
+  .icon-soon  { background: #f0efe9; }
+
+  .card-body { flex: 1; }
+  .card-meta {
+    font-size: 10px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: #aaa; margin-bottom: 3px;
+  }
+  .card-title { font-size: 15px; font-weight: 600; color: #1c1b18; margin-bottom: 3px; }
+  .card-title-tr { font-size: 12px; color: #888; margin-bottom: 6px; }
+  .card-desc { font-size: 13px; color: #666; line-height: 1.5; }
+
+  .card-arrow {
+    font-size: 18px; color: #ccc; flex-shrink: 0;
+    transition: color .15s, transform .15s;
+  }
+  .card:hover .card-arrow { color: #2d5f4f; transform: translateX(3px); }
+
+  /* Soon badge */
+  .soon-badge {
+    font-size: 10px; font-weight: 600; padding: 2px 8px;
+    border-radius: 10px; background: #f0efe9;
+    color: #999; border: 1px solid #dedad3;
+    display: inline-block; margin-top: 4px;
+  }
+  .card.disabled {
+    opacity: .55; pointer-events: none; cursor: default;
+  }
+
+  /* Unit divider */
+  .unit-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 14px;
+  }
+  .unit-divider-line { flex: 1; height: 1px; background: #dedad3; }
+  .unit-tag {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; padding: 4px 12px;
+    border-radius: 12px; border: 1px solid #dedad3;
+    color: #2d5f4f; background: #e8f3ef; white-space: nowrap;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center; font-size: 11px; color: #bbb;
+    margin-top: 40px; padding-top: 20px;
+    border-top: 1px solid #e5e3dc;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">AP CSP · Code.org · 2025</div>
+  <h1>Ders <em>Materyalleri</em></h1>
+  <p class="hero-sub">İkidilli ders planları, dil testleri ve aktiviteler — Türkçe / English</p>
+</div>
+
+<div class="content">
+
+  <!-- Unit 1 -->
+  <div class="unit-divider">
+    <div class="unit-divider-line"></div>
+    <div class="unit-tag">Ünite 1 — Digital Information</div>
+    <div class="unit-divider-line"></div>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="card" href="D001_CSP_U1_L1_Ders_Plani.html">
+      <div class="card-icon icon-plan">📋</div>
+      <div class="card-body">
+        <div class="card-meta">Ders Planı · Lesson Plan</div>
+        <div class="card-title">Ders 1: Welcome to CSP</div>
+        <div class="card-title-tr">Bilgisayar Bilimi İlkelerine Hoş Geldiniz</div>
+        <div class="card-desc">İkidilli ders planı — Rapid Prototyping aktivitesi, warm-up ve kapanış adımları.</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" href="L001_CSP_U1_B1_Language_Test.html">
+      <div class="card-icon icon-test">🧪</div>
+      <div class="card-body">
+        <div class="card-meta">Dil Testi · Language Test · B1</div>
+        <div class="card-title">Unit 1 English Language Check</div>
+        <div class="card-title-tr">Ünite 1 İngilizce Dil Seviye Testi</div>
+        <div class="card-desc">10 soruluk B1 seviyesi test — kelime bilgisi, okuma anlama, eşleştirme.</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <div class="card disabled">
+      <div class="card-icon icon-soon">📖</div>
+      <div class="card-body">
+        <div class="card-meta">Ders Planı · Yakında</div>
+        <div class="card-title">Ders 2–14: Diğer Dersler</div>
+        <div class="card-title-tr">Binary, Compression, Images ve diğerleri</div>
+        <div class="card-desc">Ünite 1'in kalan dersleri yakında eklenecek.</div>
+        <span class="soon-badge">Yakında / Coming Soon</span>
+      </div>
+      <div class="card-arrow">→</div>
+    </div>
+
+  </div>
+
+  <!-- Unit 2 placeholder -->
+  <div class="unit-divider">
+    <div class="unit-divider-line"></div>
+    <div class="unit-tag">Ünite 2–8 — Yakında</div>
+    <div class="unit-divider-line"></div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card disabled">
+      <div class="card-icon icon-soon">🔒</div>
+      <div class="card-body">
+        <div class="card-meta">Hazırlanıyor</div>
+        <div class="card-title">The Internet, Algorithms, Programming…</div>
+        <div class="card-desc">Diğer üniteler için materyaller hazırlanmaktadır.</div>
+        <span class="soon-badge">Yakında / Coming Soon</span>
+      </div>
+      <div class="card-arrow">→</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  AP CSP 2025 · Code.org Curriculum · serkanugur76 · GitHub Pages
+</footer>
+
+</body>
+</html>
